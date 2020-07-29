@@ -10,7 +10,7 @@ Note：
 */
 ```
 
-![main](md_pic/main.png)
+![main](md_pic/show.gif)
 
 *The following two project were briefly modified.*
 
