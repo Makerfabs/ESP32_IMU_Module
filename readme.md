@@ -36,6 +36,8 @@ Through the socket to achieve wifi transmission euler Angle, and display on the 
 
 # ESP32 IMU Module V1.1
 
+## Product link ：[ESP32 6- Axis IMU](https://www.makerfabs.com/esp32-6-axis-imu.html) 
+
 The Makerfabs IMU Module features the 6-axis MPU-6050 MEMS sensor from InvenSense. Each of these 6DoF IMU feature an ESP32 with a MPU-6050 which contains a 3-axis gyroscope as well as a 3-axis accelerometer. The MPU-6050 uses 16-bit analog-to-digital converters (ADCs) for digitizing 6 axes. By combining a MEMS 3-axis gyroscope and a 3-axis accelerometer on the same silicon die together with an onboard Digital Motion Processor™ (DMP™) .It can be used as a helicopter/quadcopter.
 
 ## Feature
