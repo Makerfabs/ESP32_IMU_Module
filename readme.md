@@ -2,10 +2,11 @@
 
 ```
 /*
-Version:		V1.0
+Version:		V1.1
 Author:			Vincent
 Create Date:	2020/7/22
 Note：
+	v1.1:Added the IMU documentation and PCB diagram.
 */
 ```
 
@@ -47,7 +48,7 @@ The Makerfabs IMU Module features the 6-axis MPU-6050 MEMS sensor from InvenSens
 - Digital Motion Processing™ (DMP™) engine offloads complex MotionFusion, sensor timing synchronization and gesture detection
 - Embedded algorithms for run-time bias and compass calibration. No user intervention required
 - Digital-output temperature sensor
-- Size: max 100mmX100mmX100mm
+- Size: max 100mmX100mmX9mm
 
 ![front](md_pic/front.jpg)
 
