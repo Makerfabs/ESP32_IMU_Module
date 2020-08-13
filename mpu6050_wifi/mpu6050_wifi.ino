@@ -1,29 +1,21 @@
-#define MAKEPYTHON_ESP32_SDA 4
-#define MAKEPYTHON_ESP32_SCL 5
-
 #include <WiFi.h>
+#include "I2Cdev.h"
+#include "MPU6050_6Axis_MotionApps20.h"
+#include "Wire.h"
 
+//#define WIFI_CONNECT
+#ifdef WIFI_CONNECT
 const char *ssid = "Makerfabs";
 const char *password = "20160704";
-
-const char *host = "192.168.1.117"; //欲访问的域名
+const char *host = "192.168.1.125"; //欲访问的域名
 WiFiClient client;
-
-////////////////////////////////////
-
-#include "I2Cdev.h"
-
-#include "MPU6050_6Axis_MotionApps20.h"
-
-#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-#include "Wire.h"
 #endif
 
-MPU6050 mpu;
-
+#define MAKEPYTHON_ESP32_SDA 4
+#define MAKEPYTHON_ESP32_SCL 5
 #define INTERRUPT_PIN 35
-#define LED_PIN 13
-bool blinkState = false;
+
+MPU6050 mpu;
 
 bool dmpReady = false;
 uint8_t mpuIntStatus;
@@ -48,25 +40,13 @@ void dmpDataReady()
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial.println("Hello World.....");
+
   pinMode(21, OUTPUT);
   digitalWrite(21, LOW);
   Wire.begin(MAKEPYTHON_ESP32_SDA, MAKEPYTHON_ESP32_SCL);
   Wire.setClock(400000);
-
-  Serial.begin(115200);
-  Serial.println("Hello World.....");
-
-  WiFi.mode(WIFI_STA);
-  WiFi.setSleep(false); //关闭STA模式下wifi休眠，提高响应速度
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("Connected");
-  Serial.print("IP Address:");
-  Serial.println(WiFi.localIP());
 
   Serial.println(F("Initializing I2C devices..."));
   mpu.initialize();
@@ -74,25 +54,6 @@ void setup()
 
   Serial.println(F("Testing device connections..."));
   Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
-
-/*
-  Serial.println(F("\nSend any character to begin DMP programming and demo: "));
-  while (Serial.available() && Serial.read())
-    ; // empty buffer
-  while (!Serial.available())
-    ; // wait for data
-  while (Serial.available() && Serial.read())
-    ; // empty buffer again
-*/
-
-  if (client.connect(host, 80)) //80为一般网站的端口号
-  {
-    Serial.println("访问成功");
-    client.print(String("GET /") + " HTTP/1.1\r\n" +
-                 "Host: " + host + "\r\n" +
-                 "Connection: close\r\n" +
-                 "\r\n");
-  }
 
   Serial.println(F("Initializing DMP..."));
   devStatus = mpu.dmpInitialize();
@@ -124,7 +85,28 @@ void setup()
     Serial.println(F(")"));
   }
 
-  pinMode(LED_PIN, OUTPUT);
+#ifdef WIFI_CONNECT
+  WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false); //关闭STA模式下wifi休眠，提高响应速度
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Connected");
+  Serial.print("IP Address:");
+  Serial.println(WiFi.localIP());
+
+  if (client.connect(host, 80)) //80为一般网站的端口号
+  {
+    Serial.println("访问成功");
+    client.print(String("GET /") + " HTTP/1.1\r\n" +
+                 "Host: " + host + "\r\n" +
+                 "Connection: close\r\n" +
+                 "\r\n");
+  }
+#endif
 }
 
 void loop()
@@ -164,15 +146,16 @@ void loop()
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-    Serial.print("ypr\t");
+    Serial.print("y");
     Serial.print(ypr[0] * 180 / M_PI);
-    Serial.print("\t");
+    Serial.print("yp");
     Serial.print(ypr[1] * 180 / M_PI);
-    Serial.print("\t");
+    Serial.print("pr");
     Serial.print(ypr[2] * 180 / M_PI);
-    Serial.print("\t");
+    Serial.print("r");
 
     Serial.println("#");
+#ifdef WIFI_CONNECT
     if (client.connected())
     {
       client.print("y");
@@ -183,7 +166,6 @@ void loop()
       client.print(ypr[2] * 180 / M_PI);
       client.println("r#");
     }
-    blinkState = !blinkState;
-    digitalWrite(LED_PIN, blinkState);
+#endif
   }
 }
