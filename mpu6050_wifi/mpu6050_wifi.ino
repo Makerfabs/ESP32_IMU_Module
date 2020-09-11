@@ -7,7 +7,7 @@
 #ifdef WIFI_CONNECT
 const char *ssid = "Makerfabs";
 const char *password = "20160704";
-const char *host = "192.168.1.125"; //欲访问的域名
+const char *host = "192.168.1.125"; 
 WiFiClient client;
 #endif
 
@@ -87,7 +87,7 @@ void setup()
 
 #ifdef WIFI_CONNECT
   WiFi.mode(WIFI_STA);
-  WiFi.setSleep(false); //关闭STA模式下wifi休眠，提高响应速度
+  WiFi.setSleep(false); 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -98,9 +98,9 @@ void setup()
   Serial.print("IP Address:");
   Serial.println(WiFi.localIP());
 
-  if (client.connect(host, 80)) //80为一般网站的端口号
+  if (client.connect(host, 80)) 
   {
-    Serial.println("访问成功");
+    Serial.println("Success");
     client.print(String("GET /") + " HTTP/1.1\r\n" +
                  "Host: " + host + "\r\n" +
                  "Connection: close\r\n" +

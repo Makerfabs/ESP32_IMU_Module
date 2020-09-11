@@ -5,7 +5,9 @@
 Version:		V1.1
 Author:			Vincent
 Create Date:	2020/7/22
+Update Date；	2020/9/11
 Note：
+	V2.0:Add wiki link.Add a serial test exe.
 	v1.1:Added the IMU documentation and PCB diagram.
 */
 ```
@@ -28,37 +30,30 @@ Note：
 
 [Makerfabs Wiki](https://makerfabs.com/wiki/index.php?title=Main_Page)
 
-At present, it is only a technical verification of IMU, and there may be a real project in the future. The hardware is in develop.
-
 Through the socket to achieve wifi transmission euler Angle, and display on the PC side of the Python program.To facilitate testing, I packaged a Win10 64-bit EXE program that can be accessed by changing the IP in the ESP32 program.Otherwise, you need to install a dependent library like OpenGL.
 
 
 
-# ESP32 IMU Module V1.1
+## Equipment list
 
-## Product link ：[ESP32 6- Axis IMU](https://www.makerfabs.com/esp32-6-axis-imu.html) 
-
-The Makerfabs IMU Module features the 6-axis MPU-6050 MEMS sensor from InvenSense. Each of these 6DoF IMU feature an ESP32 with a MPU-6050 which contains a 3-axis gyroscope as well as a 3-axis accelerometer. The MPU-6050 uses 16-bit analog-to-digital converters (ADCs) for digitizing 6 axes. By combining a MEMS 3-axis gyroscope and a 3-axis accelerometer on the same silicon die together with an onboard Digital Motion Processor™ (DMP™) .It can be used as a helicopter/quadcopter.
-
-## Feature
-
-- Integrated ESP32 2.4G WiFi and Bluetooth
-- I2C Digital-output of 6-axis MotionFusion data in rotation matrix, quaternion, Euler Angle, or raw data format
-- Input Voltage: 3.7V Battery or 5.0V MicroUSB 
-- Tri-Axis angular rate sensor (gyro) with a sensitivity up to 131 LSBs/dps and a full-scale range of ±250, ±500, ±1000, and ±2000dps
-- Tri-Axis accelerometer with a programmable full scale range of ±2g, ±4g, ±8g and ±16g
-- Digital Motion Processing™ (DMP™) engine offloads complex MotionFusion, sensor timing synchronization and gesture detection
-- Embedded algorithms for run-time bias and compass calibration. No user intervention required
-- Digital-output temperature sensor
-- Size: max 100mmX100mmX9mm
+- [ESP32 6- Axis IMU Wiki](https://www.makerfabs.com/wiki/index.php?title=ESP32_IMU) 
 
 ![front](md_pic/front.jpg)
 
-![back](md_pic/back.jpg)
-
-
-
 # Steps
+
+## V2.0 Update:
+
+- Now you can use USB cable connect to PC.
+- Added serial port test program : "/ESP32_IMU_Module/imu_show_serial/dist/imu_show_serial_test.exe".
+- WiFi transmission is not enabled by default.
+- If WiFi transmission is required, the following code needs to be modified.  Uncomment before WIFI_CONNECT.
+
+```c++
+//#define WIFI_CONNECT
+```
+
+
 
 ## PC
 
